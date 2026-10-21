@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trésor Mariel ALLOGNON — Data Analyst</title>
+  <meta name="description" content="Portfolio de Trésor Mariel ALLOGNON, analyste de données et statisticien basé au Bénin." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    :root {
+      --navy:        #0D1B3E;
+      --navy-mid:    #112254;
+      --navy-light:  #1a2f6e;
+      --sky:         #00BFFF;
+      --sky-dim:     rgba(0,191,255,.15);
+      --sky-glow:    rgba(0,191,255,.35);
+      --white:       #FFFFFF;
+      --text:        rgba(255,255,255,.88);
+      --text-soft:   rgba(255,255,255,.55);
+      --text-muted:  rgba(255,255,255,.30);
+      --border:      rgba(255,255,255,.08);
+      --card-bg:     rgba(255,255,255,.04);
+      --card-hover:  rgba(0,191,255,.06);
+
+      --font-h: 'Outfit', sans-serif;
+      --font-b: 'Montserrat', sans-serif;
+      --font-m: 'JetBrains Mono', monospace;
+
+      --ease: cubic-bezier(.4,0,.2,1);
+      --t:    .3s;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+    body {
+      font-family: var(--font-b);
+      background: var(--navy);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration:.01ms!important; transition-duration:.01ms!important; }
+    }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ── CURSOR ─────────────────────────────── */
+    #cur {
+      position: fixed;
+      width: 14px; height: 14px;
+      border: 1.5px solid var(--sky);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width .2s, height .2s, background .2s;
+    }
+    #cur.on { width: 32px; height: 32px; background: rgba(0,191,255,.1); }
+
+    /* ── NAVBAR ─────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 68px; z-index: 100;
+      display: flex; align-items: center;
+      padding: 0 clamp(1.5rem,5vw,4rem);
+      transition: background var(--t), box-shadow var(--t);
+    }
+    nav.scrolled {
+      background: rgba(13,27,62,.92);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .nav-in {
+      max-width: 1200px; width: 100%; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--font-h); font-weight: 800; font-size: 1.2rem;
+      color: var(--white); letter-spacing: -.02em;
+    }
+    .nav-logo span { color: var(--sky); }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a {
+      font-size: .85rem; font-weight: 500; color: var(--text-soft);
+      transition: color var(--t); position: relative;
+    }
+    .nav-links a:hover { color: var(--sky); }
+    .nav-cta {
+      padding: .45rem 1.2rem;
+      border: 1.5px solid var(--sky);
+      border-radius: 100px;
+      color: var(--sky) !important;
+      font-size: .82rem !important;
+      transition: background var(--t), color var(--t) !important;
+    }
+    .nav-cta:hover { background: var(--sky); color: var(--navy) !important; }
+
+    .lang-sw { display: flex; gap: .25rem; align-items: center; }
+    .lang-sw button {
+      background: none; border: none; cursor: none;
+      font-family: var(--font-m); font-size: .68rem;
+      color: var(--text-muted); padding: .2rem .45rem;
+      border-radius: 3px; transition: color var(--t), background var(--t);
+    }
+    .lang-sw button.on { color: var(--sky); background: var(--sky-dim); }
+    .lang-sw span { color: var(--text-muted); font-size: .7rem; }
+
+    .burger {
+  display: none;
+  flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: none; padding: 4px;
+  }
+    .burger span { width: 22px; height: 1.5px; background: var(--white); display: block; transition: var(--t); }
+
+    .mob-menu {
+      display: none; position: fixed;
+      inset: 68px 0 0 0;
+      background: rgba(13,27,62,.97);
+      backdrop-filter: blur(20px);
+      z-index: 99;
+      flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem;
+    }
+    .mob-menu.open { display: flex; }
+    .mob-menu a { font-family: var(--font-h); font-size: 1.8rem; font-weight: 700; color: var(--white); }
+
+    /* ── HERO ───────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 0 clamp(1.5rem,5vw,4rem);
+      padding-top: 68px;
+      position: relative; overflow: hidden;
+    }
+
+    /* Animated gradient background */
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 50%, rgba(0,80,160,.45) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 80% at 20% 80%, rgba(0,40,120,.3) 0%, transparent 60%),
+        linear-gradient(160deg, #0D1B3E 0%, #0a1535 50%, #071025 100%);
+      z-index: 0;
+    }
+
+    /* Subtle dot grid */
+    #hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(0,191,255,.08) 1px, transparent 1px);
+      background-size: 36px 36px;
+      z-index: 0;
+    }
+
+    .hero-in {
+      max-width: 1200px; width: 100%; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 420px;
+      gap: 2rem; align-items: center;
+      position: relative; z-index: 1;
+    }
+
+    .hero-left {}
+
+    .hero-greeting {
+      font-family: var(--font-m); font-size: .78rem;
+      color: var(--sky); letter-spacing: .12em;
+      margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .hero-greeting::before {
+      content: ''; width: 28px; height: 1px; background: var(--sky);
+    }
+
+    .hero-name {
+      font-family: var(--font-h); font-weight: 900;
+      line-height: 1; letter-spacing: -.03em;
+      margin-bottom: 1rem;
+    }
+    .hero-name .fn {
+      display: block;
+      font-size: clamp(3rem,7vw,5.5rem);
+      color: var(--white);
+    }
+    .hero-name .ln {
+      display: block;
+      font-size: clamp(3rem,7vw,5.5rem);
+      color: var(--sky);
+    }
+
+    .hero-tw {
+      font-family: var(--font-b); font-size: clamp(.9rem,1.8vw,1.1rem);
+      font-weight: 500; color: var(--text-soft);
+      margin-bottom: 1.75rem; min-height: 1.8em;
+    }
+    .tw-cur {
+      display: inline-block; width: 2px; height: .9em;
+      background: var(--sky); vertical-align: middle;
+      margin-left: 2px; animation: blink .7s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .hero-desc {
+      font-size: clamp(.88rem,1.5vw,1rem);
+      color: var(--text-soft); line-height: 1.8;
+      max-width: 50ch; margin-bottom: 2.5rem;
+    }
+    .hero-desc strong { color: var(--white); font-weight: 600; }
+
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+
+    .btn-sky {
+      font-family: var(--font-b); font-weight: 600; font-size: .88rem;
+      padding: .8rem 1.8rem;
+      background: var(--sky); color: var(--navy);
+      border-radius: 100px; border: none;
+      transition: box-shadow var(--t), transform var(--t);
+      display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .btn-sky:hover { box-shadow: 0 0 28px var(--sky-glow); transform: translateY(-2px); }
+
+    .btn-ghost {
+      font-family: var(--font-b); font-weight: 600; font-size: .88rem;
+      padding: .8rem 1.8rem;
+      background: transparent; color: var(--white);
+      border-radius: 100px; border: 1.5px solid rgba(255,255,255,.25);
+      transition: border-color var(--t), color var(--t), transform var(--t);
+      display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .btn-ghost:hover { border-color: var(--sky); color: var(--sky); transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex; gap: 2.5rem; flex-wrap: wrap;
+    }
+    .h-stat {}
+    .h-stat-num {
+      font-family: var(--font-h); font-size: 2rem; font-weight: 800;
+      color: var(--white); line-height: 1;
+    }
+    .h-stat-num sup { font-size: .9rem; color: var(--sky); }
+    .h-stat-lbl { font-size: .72rem; color: var(--text-muted); margin-top: .25rem; }
+    .h-divider { width: 1px; background: var(--border); align-self: stretch; }
+
+    /* Hero photo */
+    .hero-right { display: flex; justify-content: center; align-items: center; }
+
+    .photo-wrap {
+      position: relative;
+      width: 340px; height: 340px;
+    }
+
+    /* Glow ring */
+    .photo-wrap::before {
+      content: '';
+      position: absolute; inset: -12px;
+      border-radius: 50%;
+      background: conic-gradient(var(--sky) 0deg, transparent 120deg, var(--sky) 240deg, transparent 360deg);
+      animation: spin 8s linear infinite;
+      opacity: .5;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Outer ring */
+    .photo-wrap::after {
+      content: '';
+      position: absolute; inset: -4px;
+      border-radius: 50%;
+      background: var(--navy);
+    }
+
+    .photo-circle {
+      position: relative; z-index: 1;
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--sky);
+      border: 4px solid var(--navy);
+    }
+    .photo-circle img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+    }
+    .photo-circle .photo-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: linear-gradient(145deg, #0066aa, #00BFFF);
+      color: white; gap: .5rem;
+    }
+    .photo-circle .photo-placeholder i { font-size: 4rem; opacity: .6; }
+    .photo-circle .photo-placeholder span { font-family: var(--font-h); font-weight: 700; font-size: 1.2rem; }
+
+    /* Floating chips */
+    .chip {
+      position: absolute; z-index: 2;
+      background: rgba(13,27,62,.92);
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: .6rem .9rem;
+      backdrop-filter: blur(10px);
+      display: flex; align-items: center; gap: .6rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,.35);
+    }
+    .chip-1 { bottom: 20px; left: -30px; animation: fl 4s ease-in-out infinite; }
+    .chip-2 { top: 30px; right: -24px; animation: fl 4s ease-in-out infinite .9s; }
+    @keyframes fl { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+    .chip-icon {
+      width: 30px; height: 30px; border-radius: 7px;
+      background: var(--sky-dim); color: var(--sky);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .82rem;
+    }
+    .chip-text { line-height: 1.3; }
+    .chip-text strong { display: block; font-size: .75rem; font-weight: 600; color: var(--white); }
+    .chip-text span { font-size: .65rem; color: var(--text-muted); font-family: var(--font-m); }
+
+    /* scroll cue */
+    .scroll-cue {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      color: var(--text-muted); font-family: var(--font-m); font-size: .62rem;
+      letter-spacing: .1em; z-index: 1;
+      animation: fadeUp 1s 2s both;
+    }
+    .scroll-line {
+      width: 1px; height: 36px;
+      background: linear-gradient(to bottom, var(--sky), transparent);
+      animation: scrollL 2s ease-in-out infinite;
+    }
+    @keyframes scrollL {
+      0%{transform:scaleY(0);transform-origin:top}
+      50%{transform:scaleY(1);transform-origin:top}
+      51%{transform:scaleY(1);transform-origin:bottom}
+      100%{transform:scaleY(0);transform-origin:bottom}
+    }
+    @keyframes fadeUp { from{opacity:0;transform:translateX(-50%) translateY(10px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+
+    /* ── SECTIONS COMMONS ───────────────────── */
+    .sec {
+      padding: clamp(4rem,7vw,6.5rem) clamp(1.5rem,5vw,4rem);
+    }
+    .sec-in { max-width: 1200px; margin: 0 auto; }
+    .sec-alt { background: var(--navy-mid); }
+
+    .sec-hd { margin-bottom: 3.5rem; }
+    .sec-lbl {
+      font-family: var(--font-m); font-size: .7rem;
+      color: var(--sky); letter-spacing: .12em; margin-bottom: .6rem;
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .sec-lbl::after { content: ''; flex: 0 0 40px; height: 1px; background: var(--sky); opacity: .4; }
+    .sec-ttl {
+      font-family: var(--font-h); font-weight: 700;
+      font-size: clamp(1.8rem,3.5vw,2.5rem);
+      color: var(--white); letter-spacing: -.02em; line-height: 1.15;
+    }
+    .sec-sub {
+      margin-top: .75rem; font-size: .93rem;
+      color: var(--text-soft); max-width: 58ch; line-height: 1.75;
+    }
+
+    /* ── ABOUT ──────────────────────────────── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;
+    }
+    .about-text p {
+      font-size: .93rem; color: var(--text-soft); line-height: 1.85; margin-bottom: 1.2rem;
+    }
+    .about-text p strong { color: var(--white); font-weight: 600; }
+
+    .about-right { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.4rem 1.6rem;
+      border-left: 2px solid var(--sky);
+      transition: background var(--t);
+    }
+    .info-card:hover { background: var(--card-hover); }
+    .info-card .ic-lbl {
+      font-family: var(--font-m); font-size: .65rem;
+      color: var(--sky); letter-spacing: .1em; margin-bottom: .5rem;
+    }
+    .info-card h4 {
+      font-family: var(--font-h); font-weight: 600;
+      font-size: .95rem; color: var(--white); margin-bottom: .3rem;
+    }
+    .info-card p { font-size: .82rem; color: var(--text-soft); }
+
+    .counters {
+      display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem;
+    }
+    .cnt {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.2rem;
+      text-align: center; transition: border-color var(--t), background var(--t);
+    }
+    .cnt:hover { border-color: var(--sky-dim); background: var(--card-hover); }
+    .cnt-num {
+      font-family: var(--font-h); font-size: 2.2rem; font-weight: 800;
+      color: var(--white); line-height: 1;
+    }
+    .cnt-num em { font-style: normal; font-size: 1rem; color: var(--sky); }
+    .cnt-lbl { font-size: .7rem; color: var(--text-muted); margin-top: .3rem; line-height: 1.4; }
+
+    /* ── SKILLS ─────────────────────────────── */
+    .skills-wrap {
+      display: grid; grid-template-columns: repeat(2,1fr); gap: 2rem;
+    }
+    .sk-cat {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.75rem;
+      transition: border-color var(--t), background var(--t);
+    }
+    .sk-cat:hover { border-color: rgba(0,191,255,.2); background: var(--card-hover); }
+    .sk-cat-hd {
+      display: flex; align-items: center; gap: .65rem;
+      margin-bottom: 1.5rem;
+    }
+    .sk-cat-hd .ico {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: var(--sky-dim); color: var(--sky);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; flex-shrink: 0;
+    }
+    .sk-cat-hd h3 {
+      font-family: var(--font-h); font-size: .95rem;
+      font-weight: 600; color: var(--white);
+    }
+
+    .sk-items { display: flex; flex-direction: column; gap: .85rem; }
+    .sk-row { display: flex; align-items: center; gap: .75rem; }
+    .sk-name {
+      font-family: var(--font-m); font-size: .75rem;
+      color: var(--text-soft); width: 76px; flex-shrink: 0;
+    }
+    .sk-track {
+      flex: 1; height: 3px; background: rgba(255,255,255,.07); border-radius: 100px; overflow: hidden;
+    }
+    .sk-fill {
+      height: 100%; width: 0;
+      background: linear-gradient(90deg, #1a5fa8, var(--sky));
+      border-radius: 100px;
+      transition: width 1.3s var(--ease);
+    }
+    .sk-pct { font-family: var(--font-m); font-size: .62rem; color: var(--text-muted); width: 22px; text-align: right; }
+
+    /* Méthodes — tag cloud style */
+    .sk-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .25rem; }
+    .sk-tag {
+      font-family: var(--font-m); font-size: .68rem;
+      padding: .3rem .75rem;
+      background: rgba(0,191,255,.07);
+      border: 1px solid rgba(0,191,255,.18);
+      border-radius: 100px; color: rgba(0,191,255,.85);
+      transition: background var(--t), color var(--t);
+    }
+    .sk-tag:hover { background: rgba(0,191,255,.15); color: var(--sky); }
+
+    /* ── PROJECTS ───────────────────────────── */
+    .proj-featured { display: flex; flex-direction: column; gap: 2.5rem; margin-bottom: 3rem; }
+
+    .pf {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--border); border-radius: 18px;
+      overflow: hidden;
+      background: var(--card-bg);
+      transition: border-color var(--t), box-shadow var(--t), transform var(--t);
+    }
+    .pf:hover {
+      border-color: rgba(0,191,255,.25);
+      box-shadow: 0 0 40px rgba(0,191,255,.06);
+      transform: translateY(-3px);
+    }
+    .pf.rev { direction: rtl; }
+    .pf.rev > * { direction: ltr; }
+
+    .pf-img {
+      background: var(--navy-light); overflow: hidden;
+      min-height: 280px; position: relative;
+    }
+    .pf-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+    .pf:hover .pf-img img { transform: scale(1.04); }
+
+    .pf-img-ph {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: .75rem;
+      background: linear-gradient(145deg, rgba(0,80,160,.4), rgba(0,191,255,.1));
+      color: var(--sky); font-size: 2.2rem;
+    }
+    .pf-img-ph p { font-family: var(--font-m); font-size: .65rem; color: var(--text-muted); }
+
+    .pf-body { padding: 2.25rem; display: flex; flex-direction: column; justify-content: center; }
+    .pf-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1rem; }
+    .pf-tag {
+      font-family: var(--font-m); font-size: .62rem;
+      padding: .22rem .6rem; border-radius: 100px;
+      border: 1px solid var(--border); color: var(--text-soft);
+    }
+    .pf-tag.sky { background: var(--sky-dim); border-color: rgba(0,191,255,.25); color: var(--sky); }
+    .pf-tag.gold { background: rgba(255,215,0,.07); border-color: rgba(255,215,0,.3); color: #e5c000; }
+
+    .pf-ttl {
+      font-family: var(--font-h); font-size: 1.15rem; font-weight: 700;
+      color: var(--white); line-height: 1.3; margin-bottom: .75rem;
+    }
+    .pf-desc { font-size: .85rem; color: var(--text-soft); line-height: 1.75; margin-bottom: 1.25rem; }
+    .pf-method {
+      font-family: var(--font-m); font-size: .68rem; color: var(--sky);
+      display: flex; align-items: center; gap: .4rem;
+    }
+
+    /* secondary grid */
+    .proj-sep {
+      font-family: var(--font-m); font-size: .68rem; color: var(--text-muted);
+      letter-spacing: .1em; text-align: center; margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .proj-sep::before, .proj-sep::after { content:''; flex:1; height:1px; background: var(--border); }
+
+    .proj-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.25rem; }
+
+    .pc {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.5rem;
+      display: flex; flex-direction: column; gap: .9rem;
+      transition: border-color var(--t), background var(--t), transform var(--t);
+    }
+    .pc:hover { border-color: rgba(0,191,255,.2); background: var(--card-hover); transform: translateY(-3px); }
+
+    .pc-top { display: flex; align-items: flex-start; gap: .9rem; }
+    .pc-ico {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--sky-dim); color: var(--sky);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem; flex-shrink: 0;
+    }
+    .pc-meta .pc-type {
+      font-family: var(--font-m); font-size: .62rem; color: var(--sky); margin-bottom: .25rem;
+    }
+    .pc-meta .pc-ttl {
+      font-family: var(--font-h); font-size: .9rem; font-weight: 600; color: var(--white); line-height: 1.3;
+    }
+    .pc-desc { font-size: .82rem; color: var(--text-soft); line-height: 1.7; }
+    .pc-foot {
+      display: flex; flex-wrap: wrap; gap: .35rem;
+      padding-top: .75rem; border-top: 1px solid var(--border);
+    }
+    .pc-t {
+      font-family: var(--font-m); font-size: .6rem;
+      padding: .2rem .55rem;
+      background: rgba(0,191,255,.07); border: 1px solid rgba(0,191,255,.15);
+      border-radius: 4px; color: rgba(0,191,255,.7);
+    }
+
+    /* ── EXPERIENCE ─────────────────────────── */
+    .exp-wrap { display: grid; grid-template-columns: 260px 1fr; gap: 4rem; align-items: start; }
+    .exp-side { position: sticky; top: 88px; }
+    .exp-side p { font-size: .9rem; color: var(--text-soft); line-height: 1.8; }
+    .exp-side strong { color: var(--white); }
+
+    .tl { position: relative; display: flex; flex-direction: column; gap: 0; }
+    .tl::before {
+      content: ''; position: absolute;
+      left: 15px; top: 8px; bottom: 8px;
+      width: 1px; background: var(--border);
+    }
+    .tl-item {
+      display: grid; grid-template-columns: 30px 1fr;
+      gap: 1.25rem; padding-bottom: 2.25rem; position: relative;
+    }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--navy); border: 2px solid var(--text-muted);
+      margin-top: 6px; position: relative; z-index: 1;
+      justify-self: center; align-self: start;
+      transition: border-color var(--t);
+    }
+    .tl-dot.act { background: var(--sky); border-color: var(--sky); box-shadow: 0 0 0 4px rgba(0,191,255,.15); }
+
+    .tl-content {}
+    .tl-period { font-family: var(--font-m); font-size: .65rem; color: var(--text-muted); margin-bottom: .35rem; }
+    .tl-role { font-family: var(--font-h); font-weight: 600; font-size: .98rem; color: var(--white); margin-bottom: .2rem; }
+    .tl-org { font-size: .78rem; color: var(--sky); margin-bottom: .5rem; font-weight: 500; }
+    .tl-detail { font-size: .83rem; color: var(--text-soft); line-height: 1.7; }
+
+    /* ── TESTIMONIALS ───────────────────────── */
+    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .testi {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.75rem;
+      display: flex; flex-direction: column; gap: 1.25rem;
+      transition: border-color var(--t), background var(--t);
+    }
+    .testi:hover { border-color: rgba(0,191,255,.2); background: var(--card-hover); }
+
+    .testi-q { color: var(--sky); font-size: 1.6rem; line-height: 1; opacity: .6; }
+    .testi-txt {
+      font-size: .88rem; color: var(--text-soft);
+      line-height: 1.8; font-style: italic; flex: 1;
+    }
+    .testi-author { display: flex; align-items: center; gap: .75rem; }
+    .testi-av {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy-light), var(--sky));
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-h); font-weight: 700; font-size: .82rem; color: var(--white);
+      flex-shrink: 0;
+    }
+    .testi-name { font-family: var(--font-h); font-weight: 600; font-size: .88rem; color: var(--white); }
+    .testi-role { font-size: .72rem; color: var(--text-muted); margin-top: .1rem; }
+
+    /* ── CONTACT ────────────────────────────── */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+
+    .c-avail {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: rgba(0,191,255,.07); border: 1px solid rgba(0,191,255,.2);
+      border-radius: 100px; padding: .45rem 1rem;
+      font-size: .78rem; color: var(--sky); margin-bottom: 1.75rem;
+    }
+    .avail-dot { width: 7px; height: 7px; background: #4ade80; border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+
+    .c-info p { font-size: .93rem; color: var(--text-soft); line-height: 1.8; margin-bottom: 2rem; }
+    .c-links { display: flex; flex-direction: column; gap: .7rem; }
+    .c-link {
+      display: flex; align-items: center; gap: .75rem;
+      font-size: .85rem; color: var(--text-soft);
+      transition: color var(--t);
+    }
+    .c-link:hover { color: var(--sky); }
+    .c-link i {
+      width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; flex-shrink: 0; transition: border-color var(--t), color var(--t);
+    }
+    .c-link:hover i { border-color: var(--sky); color: var(--sky); }
+
+    .c-form { display: flex; flex-direction: column; gap: 1.1rem; }
+    .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .f-grp { display: flex; flex-direction: column; gap: .35rem; }
+    .f-grp label { font-size: .72rem; color: var(--text-muted); font-weight: 500; }
+    .f-grp input, .f-grp select, .f-grp textarea {
+      background: rgba(255,255,255,.04); border: 1px solid var(--border);
+      border-radius: 8px; padding: .7rem 1rem;
+      color: var(--white); font-family: var(--font-b); font-size: .875rem;
+      transition: border-color var(--t); outline: none; resize: none;
+    }
+    .f-grp input::placeholder, .f-grp textarea::placeholder { color: rgba(255,255,255,.2); }
+    .f-grp input:focus, .f-grp select:focus, .f-grp textarea:focus { border-color: var(--sky); }
+    .f-grp select option { background: var(--navy-mid); }
+    .f-grp textarea { min-height: 110px; }
+
+    .btn-submit {
+      font-family: var(--font-b); font-weight: 600; font-size: .88rem;
+      padding: .85rem 2rem;
+      background: var(--sky); color: var(--navy);
+      border: none; border-radius: 100px; cursor: none;
+      transition: box-shadow var(--t), transform var(--t);
+      display: inline-flex; align-items: center; gap: .5rem; align-self: flex-start;
+    }
+    .btn-submit:hover { box-shadow: 0 0 24px var(--sky-glow); transform: translateY(-2px); }
+
+    /* ── FOOTER ─────────────────────────────── */
+    footer {
+      background: #070f24;
+      padding: 2rem clamp(1.5rem,5vw,4rem);
+      border-top: 1px solid var(--border);
+    }
+    .foot-in {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .foot-brand {
+      font-family: var(--font-h); font-weight: 800; font-size: 1rem; color: var(--white);
+    }
+    .foot-brand span { color: var(--sky); }
+    .foot-brand p { font-size: .7rem; color: var(--text-muted); font-weight: 400; margin-top: .15rem; }
+    .foot-links { display: flex; gap: 1.5rem; }
+    .foot-links a { font-size: .78rem; color: var(--text-muted); transition: color var(--t); }
+    .foot-links a:hover { color: var(--sky); }
+    .foot-copy { font-size: .7rem; color: var(--text-muted); }
+
+    /* ── REVEAL ─────────────────────────────── */
+    .rv {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .7s var(--ease), transform .7s var(--ease);
+    }
+    .rv.vis { opacity: 1; transform: none; }
+    .rv.d1 { transition-delay: .1s; }
+    .rv.d2 { transition-delay: .2s; }
+    .rv.d3 { transition-delay: .3s; }
+
+    /* ── RESPONSIVE ─────────────────────────── */
+    @media (max-width: 1024px) {
+      .hero-in { grid-template-columns: 1fr; text-align: center; }
+      .hero-right { order: -1; margin-bottom: 2rem; }
+      .hero-greeting { justify-content: center; }
+      .hero-desc { margin-left: auto; margin-right: auto; }
+      .hero-btns { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .photo-wrap { width: 260px; height: 260px; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .skills-wrap { grid-template-columns: 1fr; }
+      .pf { grid-template-columns: 1fr; }
+      .pf.rev { direction: ltr; }
+      .pf-img { min-height: 220px; }
+      .exp-wrap { grid-template-columns: 1fr; gap: 2rem; }
+      .exp-side { position: static; }
+      .testi-grid { grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .sec { padding: clamp(3rem,6vw,5rem) clamp(1.25rem,4vw,3rem); }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .burger { display: flex; }
+      .proj-grid { grid-template-columns: 1fr; }
+      .counters { grid-template-columns: 1fr 1fr; }
+      .f-row { grid-template-columns: 1fr; }
+      .foot-in { flex-direction: column; text-align: center; }
+      .foot-links { justify-content: center; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .hero-name .fn, .hero-name .ln { font-size: clamp(2.4rem,9vw,3.5rem); }
+      .pf-body { padding: 1.5rem; }
+      .pc { padding: 1.25rem; }
+      .tl::before { left: 11px; }
+      .tl-item { grid-template-columns: 24px 1fr; gap: 1rem; }
+    }
+    @media (max-width: 480px) {
+      .photo-wrap { width: 210px; height: 210px; }
+      .hero-stats { gap: 1.25rem; }
+      .h-stat-num { font-size: 1.6rem; }
+      .sec-ttl { font-size: 1.7rem; }
+      .pf-ttl { font-size: 1rem; }
+      .skills-wrap { gap: 1.25rem; }
+      .info-card { padding: 1.1rem 1.25rem; }
+      .counters { grid-template-columns: 1fr 1fr; gap: .75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cur"></div>
+
+<!-- ── NAVBAR ──────────────────────────────── -->
+<nav id="nav">
+  <div class="nav-in">
+    <a href="#hero" class="nav-logo">TM<span>.</span>ALLOGNON</a>
+    <ul class="nav-links">
+      <li><a href="#about"      data-fr="À propos"  data-en="About">À propos</a></li>
+      <li><a href="#projects"   data-fr="Projets"   data-en="Projects">Projets</a></li>
+      <li><a href="#experience" data-fr="Parcours"  data-en="Experience">Parcours</a></li>
+      <li><a href="#contact" class="nav-cta" data-fr="Contact" data-en="Contact">Contact</a></li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:.9rem;">
+      <div class="lang-sw">
+        <button class="on" onclick="setLang('fr')">FR</button>
+        <span>/</span>
+        <button onclick="setLang('en')">EN</button>
+      </div>
+      <button class="burger" id="burger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="mob-menu" id="mobMenu">
+  <a href="#about"      onclick="toggleMenu()" data-fr="À propos"    data-en="About">À propos</a>
+  <a href="#projects"   onclick="toggleMenu()" data-fr="Projets"     data-en="Projects">Projets</a>
+  <a href="#experience" onclick="toggleMenu()" data-fr="Parcours"    data-en="Experience">Parcours</a>
+  <a href="#contact"    onclick="toggleMenu()" data-fr="Me contacter" data-en="Get in touch">Me contacter</a>
+</div>
+
+<!-- ── HERO ────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-in">
+    <div class="hero-left">
+      <div class="hero-greeting" data-fr="Analyste de données" data-en="Data Analyst">
+        Analyste de données
+      </div>
+
+      <h1 class="hero-name">
+        <span class="fn">Trésor Mariel</span>
+        <span class="ln">ALLOGNON</span>
+      </h1>
+
+      <div class="hero-tw">
+        <span id="tw"></span><span class="tw-cur"></span>
+      </div>
+
+      <p class="hero-desc">
+        <span data-fr="Je transforme les <strong>données brutes</strong> en <strong>décisions éclairées</strong> — statistiques appliquées, modélisation et ingénierie financière au service de projets qui comptent." data-en="I turn <strong>raw data</strong> into <strong>informed decisions</strong> — applied statistics, modeling, and financial engineering for impactful projects.">
+          Je transforme les <strong>données brutes</strong> en <strong>décisions éclairées</strong> — statistiques appliquées, modélisation et ingénierie financière au service de projets qui comptent.
+        </span>
+      </p>
+
+      <div class="hero-btns">
+        <a href="#projects" class="btn-sky">
+          <i class="far fa-folder-open" style="font-size:.8rem"></i>
+          <span data-fr="Voir mes projets" data-en="View my work">Voir mes projets</span>
+        </a>
+        <a href="#contact" class="btn-ghost">
+          <i class="far fa-paper-plane" style="font-size:.8rem"></i>
+          <span data-fr="Me contacter" data-en="Get in touch">Me contacter</span>
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="h-stat">
+          <div class="h-stat-num">8<sup>+</sup></div>
+          <div class="h-stat-lbl" data-fr="Projets réalisés" data-en="Projects">Projets réalisés</div>
+        </div>
+        <div class="h-divider"></div>
+        <div class="h-stat">
+          <div class="h-stat-num">2<sup>ème</sup></div>
+          <div class="h-stat-lbl" data-fr="Data Analyst Award" data-en="Data Analyst Award">Data Analyst Award</div>
+        </div>
+        <div class="h-divider"></div>
+        <div class="h-stat">
+          <div class="h-stat-num">100<sup style="font-size:.8rem;color:var(--sky)">%</sup></div>
+          <div class="h-stat-lbl" data-fr="Livrés dans les délais" data-en="On-time delivery">Livrés dans les délais</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="photo-wrap">
+        <div class="photo-circle" id="photoCircle">
+          <img src="photo.png" alt="Trésor Mariel ALLOGNON"
+            onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'><i class=\'far fa-user\'></i><span>TMA</span></div>'" />
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-cue">
+    <div class="scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<!-- ── ABOUT ────────────────────────────────── -->
+<section id="about" class="sec sec-alt">
+  <div class="sec-in">
+    <div class="sec-hd rv">
+      <p class="sec-lbl" data-fr="01 — À propos" data-en="01 — About">01 — À propos</p>
+      <h2 class="sec-ttl" data-fr="Données. Rigueur. Impact." data-en="Data. Rigor. Impact.">Données. Rigueur. Impact.</h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-text rv">
+        <p data-fr="Titulaire d'une <strong>Licence Professionnelle en Statistique Appliquée</strong> de l'École Nationale de Statistique, de Planification et de Démographie (ENSPD) de l'Université de Parakou, je travaille à la frontière entre l'analyse quantitative et la prise de décision concrète." data-en="Holding a <strong>Professional Bachelor's Degree in Applied Statistics</strong> from the École Nationale de Statistique, de Planification et de Démographie (ENSPD) at the University of Parakou, I work at the intersection of quantitative analysis and real-world decision-making.">
+          Titulaire d'une <strong>Licence Professionnelle en Statistique Appliquée</strong> de l'École Nationale de Statistique, de Planification et de Démographie (ENSPD) de l'Université de Parakou, je travaille à la frontière entre l'analyse quantitative et la prise de décision concrète.
+        </p>
+        <p data-fr="Mes missions couvrent la conception d'études, la collecte de données terrain, la modélisation statistique et la restitution de résultats sous forme de rapports et dashboards exploitables — pour des structures de santé, des projets académiques et des cabinets de conseil." data-en="My work covers study design, field data collection, statistical modeling, and the delivery of results through actionable reports and dashboards — for health organizations, academic projects, and consulting firms.">
+          Mes missions couvrent la conception d'études, la collecte de données terrain, la modélisation statistique et la restitution de résultats sous forme de rapports et dashboards exploitables — pour des structures de santé, des projets académiques et des cabinets de conseil.
+        </p>
+        <p data-fr="En parallèle, j'entame une formation en <strong>ingénierie financière</strong>, qui élargit mon champ d'intervention vers l'analyse financière et la modélisation économétrique." data-en="I am also beginning a specialization in <strong>financial engineering</strong>, expanding my scope into financial analysis and econometric modeling.">
+          En parallèle, j'entame une formation en <strong>ingénierie financière</strong>, qui élargit mon champ d'intervention vers l'analyse financière et la modélisation économétrique.
+        </p>
+      </div>
+
+      <div class="about-right">
+        <div class="counters rv d1">
+          <div class="cnt">
+            <div class="cnt-num" data-target="8"><span>0</span><em>+</em></div>
+            <div class="cnt-lbl" data-fr="Projets réalisés" data-en="Projects completed">Projets réalisés</div>
+          </div>
+          <div class="cnt">
+            <div class="cnt-num"><em style="font-size:1.4rem">★</em><span>2</span></div>
+            <div class="cnt-lbl" data-fr="Prix national data" data-en="National data award">Prix national data</div>
+          </div>
+        </div>
+
+        <div class="info-card rv d2">
+          <div class="ic-lbl" data-fr="Formation actuelle" data-en="Current training">Formation actuelle</div>
+          <h4 data-fr="Ingénierie Financière" data-en="Financial Engineering">Ingénierie Financière</h4>
+          <p data-fr="Analyse financière · Évaluation de projets · Modélisation économétrique" data-en="Financial analysis · Project evaluation · Econometric modeling">Analyse financière · Évaluation de projets · Modélisation économétrique</p>
+        </div>
+
+        <div class="info-card rv d3">
+          <div class="ic-lbl" data-fr="Diplôme obtenu" data-en="Degree earned">Diplôme obtenu</div>
+          <h4 data-fr="Licence Professionnelle en Statistique Appliquée" data-en="Professional Bachelor's in Applied Statistics">Licence Professionnelle en Statistique Appliquée</h4>
+          <p>ENSPD · École Nationale de Statistique, de Planification et de Démographie · Université de Parakou</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS ───────────────────────────────── -->
+<section id="skills" class="sec">
+  <div class="sec-in">
+    <div class="sec-hd rv">
+      <p class="sec-lbl" data-fr="02 — Compétences" data-en="02 — Skills">02 — Compétences</p>
+      <h2 class="sec-ttl" data-fr="Outils & méthodes" data-en="Tools & methods">Outils & méthodes</h2>
+      <p class="sec-sub" data-fr="Des logiciels statistiques aux outils de visualisation — chaque outil maîtrisé au service de l'analyse rigoureuse." data-en="From statistical software to visualization tools — each mastered to deliver rigorous analysis.">Des logiciels statistiques aux outils de visualisation — chaque outil maîtrisé au service de l'analyse rigoureuse.</p>
+    </div>
+
+    <div class="skills-wrap">
+      <!-- Logiciels statistiques -->
+      <div class="sk-cat rv">
+        <div class="sk-cat-hd">
+          <div class="ico"><i class="far fa-chart-bar"></i></div>
+          <h3 data-fr="Logiciels statistiques" data-en="Statistical software">Logiciels statistiques</h3>
+        </div>
+        <div class="sk-items">
+          <div class="sk-row"><span class="sk-name">Excel</span><div class="sk-track"><div class="sk-fill" data-w="95"></div></div><span class="sk-pct">95</span></div>
+          <div class="sk-row"><span class="sk-name">R</span><div class="sk-track"><div class="sk-fill" data-w="88"></div></div><span class="sk-pct">88</span></div>
+          <div class="sk-row"><span class="sk-name">SPSS</span><div class="sk-track"><div class="sk-fill" data-w="85"></div></div><span class="sk-pct">85</span></div>
+          <div class="sk-row"><span class="sk-name">STATA</span><div class="sk-track"><div class="sk-fill" data-w="82"></div></div><span class="sk-pct">82</span></div>
+        </div>
+      </div>
+
+      <!-- Programmation & BI -->
+      <div class="sk-cat rv d1">
+        <div class="sk-cat-hd">
+          <div class="ico"><i class="far fa-code"></i></div>
+          <h3 data-fr="Programmation & BI" data-en="Programming & BI">Programmation & BI</h3>
+        </div>
+        <div class="sk-items">
+          <div class="sk-row"><span class="sk-name">Python</span><div class="sk-track"><div class="sk-fill" data-w="75"></div></div><span class="sk-pct">75</span></div>
+          <div class="sk-row"><span class="sk-name">SQL</span><div class="sk-track"><div class="sk-fill" data-w="72"></div></div><span class="sk-pct">72</span></div>
+          <div class="sk-row"><span class="sk-name">Power BI</span><div class="sk-track"><div class="sk-fill" data-w="78"></div></div><span class="sk-pct">78</span></div>
+        </div>
+      </div>
+
+      <!-- Méthodes statistiques — tag style -->
+      <div class="sk-cat rv d2">
+        <div class="sk-cat-hd">
+          <div class="ico"><i class="far fa-flask"></i></div>
+          <h3 data-fr="Méthodes statistiques" data-en="Statistical methods">Méthodes statistiques</h3>
+        </div>
+        <div class="sk-tags">
+          <span class="sk-tag">Régression linéaire</span>
+          <span class="sk-tag">Régression logistique</span>
+          <span class="sk-tag">ANOVA</span>
+          <span class="sk-tag">Analyse multivariée</span>
+          <span class="sk-tag">Séries temporelles</span>
+          <span class="sk-tag">Analyse factorielle</span>
+          <span class="sk-tag">Tests d'hypothèses</span>
+          <span class="sk-tag">Économétrie</span>
+          <span class="sk-tag">Modélisation prédictive</span>
+        </div>
+      </div>
+
+      <!-- Collecte & Reporting -->
+      <div class="sk-cat rv d3">
+        <div class="sk-cat-hd">
+          <div class="ico"><i class="far fa-file-lines"></i></div>
+          <h3 data-fr="Collecte & Reporting" data-en="Collection & Reporting">Collecte & Reporting</h3>
+        </div>
+        <div class="sk-tags">
+          <span class="sk-tag">Conception d'enquêtes</span>
+          <span class="sk-tag">Collecte terrain</span>
+          <span class="sk-tag">Contrôle qualité</span>
+          <span class="sk-tag">Rapports analytiques</span>
+          <span class="sk-tag">Dashboards</span>
+          <span class="sk-tag">Visualisation</span>
+          <span class="sk-tag">Formation R</span>
+          <span class="sk-tag">Rédaction scientifique</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ─────────────────────────────── -->
+<section id="projects" class="sec sec-alt">
+  <div class="sec-in">
+    <div class="sec-hd rv">
+      <p class="sec-lbl" data-fr="03 — Réalisations" data-en="03 — Work">03 — Réalisations</p>
+      <h2 class="sec-ttl" data-fr="Projets & analyses" data-en="Projects & analyses">Projets & analyses</h2>
+      <p class="sec-sub" data-fr="Des études médicales aux diagnostics économiques — chaque projet, une question précise, une méthode rigoureuse." data-en="From medical studies to economic diagnostics — each project, a precise question, a rigorous method.">Des études médicales aux diagnostics économiques — chaque projet, une question précise, une méthode rigoureuse.</p>
+    </div>
+
+    <div class="proj-featured">
+
+      <!-- Projet 1 -->
+      <div class="pf rv">
+        <div class="pf-img">
+          <img src="visuals/project1.png" alt="Régression linéaire — implants intraoculaires"
+            onerror="this.parentElement.innerHTML='<div class=\'pf-img-ph\'><i class=\'far fa-chart-scatter\'></i><p>Régression linéaire</p></div>'" />
+        </div>
+        <div class="pf-body">
+          <div class="pf-tags">
+            <span class="pf-tag sky">Analyse médicale</span>
+            <span class="pf-tag">Régression linéaire</span>
+            <span class="pf-tag">R</span>
+            <span class="pf-tag">Freelance</span>
+          </div>
+          <h3 class="pf-ttl" data-fr="Correction des erreurs de prédiction d'implants intraoculaires" data-en="Correction of Intraocular Lens Prediction Errors">Correction des erreurs de prédiction d'implants intraoculaires</h3>
+          <p class="pf-desc" data-fr="Développement d'une nouvelle équation de correction par régression linéaire, améliorant la précision des formules existantes de calcul d'implants intraoculaires." data-en="Development of a new error-correction equation using linear regression to improve the accuracy of existing intraocular lens calculation formulas.">Développement d'une nouvelle équation de correction par régression linéaire, améliorant la précision des formules existantes de calcul d'implants intraoculaires.</p>
+          <div class="pf-method"><i class="far fa-function"></i> Régression linéaire · Analyse des résidus · R²</div>
+        </div>
+      </div>
+
+      <!-- Projet 2 -->
+      <div class="pf rev rv">
+        <div class="pf-img">
+          <img src="visuals/project2.png" alt="Non-observance thérapeutique"
+            onerror="this.parentElement.innerHTML='<div class=\'pf-img-ph\'><i class=\'far fa-pills\'></i><p>Régression logistique</p></div>'" />
+        </div>
+        <div class="pf-body">
+          <div class="pf-tags">
+            <span class="pf-tag sky">Santé publique</span>
+            <span class="pf-tag">Régression logistique</span>
+            <span class="pf-tag">SPSS</span>
+            <span class="pf-tag">Freelance</span>
+          </div>
+          <h3 class="pf-ttl" data-fr="Facteurs de non-observance thérapeutique" data-en="Factors of Therapeutic Non-adherence">Facteurs de non-observance thérapeutique</h3>
+          <p class="pf-desc" data-fr="Identification des déterminants de la non-observance par régression logistique binaire — quantification du poids de chaque facteur sur le comportement des patients." data-en="Identification of non-adherence determinants via binary logistic regression — quantifying each factor's influence on patient behavior.">Identification des déterminants de la non-observance par régression logistique binaire — quantification du poids de chaque facteur sur le comportement des patients.</p>
+          <div class="pf-method"><i class="far fa-function"></i> Régression logistique · Odds ratios · IC 95%</div>
+        </div>
+      </div>
+
+      <!-- Projet 4 -->
+      <div class="pf rv">
+        <div class="pf-img">
+          <img src="visuals/project4.png" alt="Impact numérique PIB Bénin"
+            onerror="this.parentElement.innerHTML='<div class=\'pf-img-ph\'><i class=\'far fa-chart-line\'></i><p>Économétrie</p></div>'" />
+        </div>
+        <div class="pf-body">
+          <div class="pf-tags">
+            <span class="pf-tag sky">Économie numérique</span>
+            <span class="pf-tag gold"><i class="fas fa-trophy" style="font-size:.55rem"></i> 2ème prix Data Analyst Award</span>
+            <span class="pf-tag">Python</span>
+            <span class="pf-tag">Concours</span>
+          </div>
+          <h3 class="pf-ttl" data-fr="Impact du numérique sur le développement économique du Bénin" data-en="Digital Impact on Benin's Economic Development">Impact du numérique sur le développement économique du Bénin</h3>
+          <p class="pf-desc" data-fr="Modélisation de la relation entre l'accès à Internet et l'évolution du PIB au Bénin. Lauréat de la 2ème place au concours national d'analyse de données." data-en="Modeling the relationship between Internet access and GDP growth in Benin. Runner-up at the national data analysis competition.">Modélisation de la relation entre l'accès à Internet et l'évolution du PIB au Bénin. Lauréat de la 2ème place au concours national d'analyse de données.</p>
+          <div class="pf-method"><i class="far fa-function"></i> Modélisation économétrique · Séries temporelles · Corrélation</div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="proj-sep" data-fr="Autres réalisations" data-en="More work">Autres réalisations</p>
+
+    <div class="proj-grid">
+      <div class="pc rv">
+        <div class="pc-top">
+          <div class="pc-ico"><i class="far fa-wifi"></i></div>
+          <div class="pc-meta">
+            <div class="pc-type" data-fr="Enquête terrain · 2025–2026" data-en="Field survey · 2025–2026">Enquête terrain · 2025–2026</div>
+            <div class="pc-ttl" data-fr="Pratiques TICS à l'Université de Parakou" data-en="ICT Practices at the University of Parakou">Pratiques TICS à l'Université de Parakou</div>
+          </div>
+        </div>
+        <p class="pc-desc" data-fr="Collecte et contrôle de données sur les usages numériques et dynamiques sociales en milieu universitaire. Agent enquêteur 2025, agent contrôleur 2026." data-en="Data collection and control on digital practices and social dynamics at university. Field interviewer 2025, data controller 2026.">Collecte et contrôle de données sur les usages numériques et dynamiques sociales en milieu universitaire. Agent enquêteur 2025, agent contrôleur 2026.</p>
+        <div class="pc-foot">
+          <span class="pc-t">Enquête</span><span class="pc-t">Terrain</span><span class="pc-t">TICS</span>
+        </div>
+      </div>
+
+      <div class="pc rv d1">
+        <div class="pc-top">
+          <div class="pc-ico"><i class="far fa-briefcase"></i></div>
+          <div class="pc-meta">
+            <div class="pc-type" data-fr="Collaboration cabinet" data-en="Consulting collaboration">Collaboration cabinet</div>
+            <div class="pc-ttl">DDProject Consulting</div>
+          </div>
+        </div>
+        <p class="pc-desc" data-fr="Conception de projets de collecte, traitement et analyse de données. Rédaction de rapports analytiques pour les besoins du cabinet." data-en="Design of data collection, processing and analysis projects. Drafting analytical reports for the firm's clients.">Conception de projets de collecte, traitement et analyse de données. Rédaction de rapports analytiques pour les besoins du cabinet.</p>
+        <div class="pc-foot">
+          <span class="pc-t">Consulting</span><span class="pc-t">Rapports</span><span class="pc-t">Collecte</span>
+        </div>
+      </div>
+
+      <div class="pc rv d2">
+        <div class="pc-top">
+          <div class="pc-ico"><i class="far fa-chalkboard-user"></i></div>
+          <div class="pc-meta">
+            <div class="pc-type" data-fr="Formation" data-en="Training">Formation</div>
+            <div class="pc-ttl" data-fr="Formation au logiciel R" data-en="R Software Training">Formation au logiciel R</div>
+          </div>
+        </div>
+        <p class="pc-desc" data-fr="Animation de sessions de formation à l'utilisation du logiciel R pour l'analyse de données statistiques, à destination d'étudiants et professionnels." data-en="Led R software training sessions for students and professionals, covering statistical data analysis and visualization.">Animation de sessions de formation à l'utilisation du logiciel R pour l'analyse de données statistiques, à destination d'étudiants et professionnels.</p>
+        <div class="pc-foot">
+          <span class="pc-t">R</span><span class="pc-t">Formation</span><span class="pc-t">Pédagogie</span>
+        </div>
+      </div>
+
+      <div class="pc rv d3">
+        <div class="pc-top">
+          <div class="pc-ico"><i class="far fa-graduation-cap"></i></div>
+          <div class="pc-meta">
+            <div class="pc-type" data-fr="Recherche académique · ENSPD" data-en="Academic research · ENSPD">Recherche académique · ENSPD</div>
+            <div class="pc-ttl" data-fr="Études statistiques en milieu universitaire" data-en="Statistical Studies at University">Études statistiques en milieu universitaire</div>
+          </div>
+        </div>
+        <p class="pc-desc" data-fr="Analyse des conflits interpersonnels et VBG par méthodes multivariées. Comparaison des niveaux de stress académique par ANOVA — Université de Parakou." data-en="Analysis of interpersonal conflicts and GBV using multivariate methods. Comparison of academic stress levels via ANOVA — University of Parakou.">Analyse des conflits interpersonnels et VBG par méthodes multivariées. Comparaison des niveaux de stress académique par ANOVA — Université de Parakou.</p>
+        <div class="pc-foot">
+          <span class="pc-t">ANOVA</span><span class="pc-t">Multivariée</span><span class="pc-t">Recherche</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ───────────────────────────── -->
+<section id="experience" class="sec">
+  <div class="sec-in">
+    <div class="sec-hd rv">
+      <p class="sec-lbl" data-fr="04 — Parcours" data-en="04 — Experience">04 — Parcours</p>
+      <h2 class="sec-ttl" data-fr="Expérience & engagements" data-en="Experience & commitments">Expérience & engagements</h2>
+    </div>
+
+    <div class="exp-wrap">
+      <div class="exp-side rv">
+        <p data-fr="Un parcours construit entre <strong>terrain, recherche et transmission</strong> — des universités béninoises aux projets de consulting, en passant par la compétition nationale." data-en="A career built across <strong>fieldwork, research and teaching</strong> — from Beninese universities to consulting projects and national competition.">
+          Un parcours construit entre <strong>terrain, recherche et transmission</strong> — des universités béninoises aux projets de consulting, en passant par la compétition nationale.
+        </p>
+      </div>
+
+      <div class="tl">
+        <div class="tl-item rv">
+          <div class="tl-dot act"></div>
+          <div class="tl-content">
+            <div class="tl-period">2026 — En cours</div>
+            <div class="tl-role" data-fr="Formation en Ingénierie Financière" data-en="Financial Engineering Training">Formation en Ingénierie Financière</div>
+            <div class="tl-org" data-fr="Nouvelle formation · Bénin" data-en="New training · Benin">Nouvelle formation · Bénin</div>
+            <div class="tl-detail" data-fr="Analyse financière, évaluation de projets d'investissement, modélisation économétrique appliquée à la finance." data-en="Financial analysis, investment project evaluation, econometric modeling applied to finance.">Analyse financière, évaluation de projets d'investissement, modélisation économétrique appliquée à la finance.</div>
+          </div>
+        </div>
+
+        <div class="tl-item rv d1">
+          <div class="tl-dot act"></div>
+          <div class="tl-content">
+            <div class="tl-period">2025 — 2026</div>
+            <div class="tl-role" data-fr="Agent enquêteur & contrôleur" data-en="Field Interviewer & Data Controller">Agent enquêteur & contrôleur</div>
+            <div class="tl-org">Université de Parakou</div>
+            <div class="tl-detail" data-fr="Collecte et contrôle de données sur les pratiques TICS et dynamiques sociales en milieu universitaire." data-en="Data collection and control on ICT practices and social dynamics in a university setting.">Collecte et contrôle de données sur les pratiques TICS et dynamiques sociales en milieu universitaire.</div>
+          </div>
+        </div>
+
+        <div class="tl-item rv d2">
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-period">2025</div>
+            <div class="tl-role" data-fr="Analyste de données — Freelance" data-en="Data Analyst — Freelance">Analyste de données — Freelance</div>
+            <div class="tl-org" data-fr="Missions indépendantes, secteur santé" data-en="Independent projects, health sector">Missions indépendantes, secteur santé</div>
+            <div class="tl-detail" data-fr="Analyses statistiques pour études médicales : régression linéaire et logistique, restitution de résultats exploitables." data-en="Statistical analyses for medical studies: linear and logistic regression, delivery of actionable results.">Analyses statistiques pour études médicales : régression linéaire et logistique, restitution de résultats exploitables.</div>
+          </div>
+        </div>
+
+        <div class="tl-item rv d3">
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-period">2026</div>
+            <div class="tl-role">DDProject Consulting</div>
+            <div class="tl-org">Collaboration, Bénin</div>
+            <div class="tl-detail" data-fr="Conception de projets de collecte et analyse de données, rédaction de rapports analytiques." data-en="Design of data collection and analysis projects, drafting of analytical reports.">Conception de projets de collecte et analyse de données, rédaction de rapports analytiques.</div>
+          </div>
+        </div>
+
+        <div class="tl-item rv">
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-period">2025</div>
+            <div class="tl-role" data-fr="2ème place — Data Analyst Award" data-en="2nd place — Data Analyst Award">2ème place — Data Analyst Award</div>
+            <div class="tl-org" data-fr="Concours national · Bénin" data-en="National competition · Benin">Concours national · Bénin</div>
+            <div class="tl-detail" data-fr="Analyse de l'impact du numérique sur le PIB du Bénin. Modélisation économétrique présentée devant un jury national." data-en="Analysis of digital impact on Benin's GDP. Econometric modeling presented before a national jury.">Analyse de l'impact du numérique sur le PIB du Bénin. Modélisation économétrique présentée devant un jury national.</div>
+          </div>
+        </div>
+
+        <div class="tl-item rv d1">
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-period">2025 — 2026</div>
+            <div class="tl-role" data-fr="Président — CRISTAL" data-en="President — CRISTAL">Président — CRISTAL</div>
+            <div class="tl-org" data-fr="Collectif de Recherche et d'Innovation en Statistique, Université de Parakou" data-en="Statistics Research & Innovation Collective, University of Parakou">Collectif de Recherche et d'Innovation en Statistique, Université de Parakou</div>
+            <div class="tl-detail" data-fr="Animation de la communauté estudiantine autour de la statistique et de l'analyse de données." data-en="Leading the student community around statistics and data analysis.">Animation de la communauté estudiantine autour de la statistique et de l'analyse de données.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ─────────────────────────── -->
+<section id="testimonials" class="sec sec-alt">
+  <div class="sec-in">
+    <div class="sec-hd rv">
+      <p class="sec-lbl" data-fr="05 — Témoignages" data-en="05 — Reviews">05 — Témoignages</p>
+      <h2 class="sec-ttl" data-fr="Ce qu'ils disent" data-en="What they say">Ce qu'ils disent</h2>
+    </div>
+
+    <div class="testi-grid">
+      <div class="testi rv">
+        <div class="testi-q">"</div>
+        <p class="testi-txt" data-fr="Félicitations. J'ai eu beaucoup de retours positifs en ce qui concerne la formation que tu as animée sur l'analyse de données avec le logiciel R." data-en="Congratulations. I received many positive feedbacks regarding the training you led on data analysis with R.">
+          Félicitations. J'ai eu beaucoup de retours positifs en ce qui concerne la formation que tu as animée sur l'analyse de données avec le logiciel R.
+        </p>
+        <div class="testi-author">
+          <div class="testi-av">SA</div>
+          <div>
+            <div class="testi-name">Stalec ALINKPESSO</div>
+            <div class="testi-role" data-fr="Retour sur formation R" data-en="Feedback on R training">Retour sur formation R</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi rv d1">
+        <div class="testi-q">"</div>
+        <p class="testi-txt" data-fr="Je voudrais te dire que je pense que tu as un très fort potentiel. Continue à travailler dur et bien comme tu le fais. Je n'ai aucun doute que tu auras de bons résultats en maintenant cette trajectoire. Merci encore pour ton appui et le travail sous stress avec moi." data-en="I want to tell you that I think you have very strong potential. Keep working hard and well as you do. I have no doubt you will achieve great results by maintaining this trajectory. Thank you again for your support and for working under pressure with me.">
+          Je voudrais te dire que je pense que tu as un très fort potentiel. Continue à travailler dur et bien comme tu le fais. Je n'ai aucun doute que tu auras de bons résultats en maintenant cette trajectoire. Merci encore pour ton appui et le travail sous stress avec moi.
+        </p>
+        <div class="testi-author">
+          <div class="testi-av" style="background: linear-gradient(135deg,#1a5fa8,#00BFFF)">
+            <i class="far fa-user" style="font-size:.75rem"></i>
+          </div>
+          <div>
+            <div class="testi-name" data-fr="Client — Anonyme" data-en="Client — Anonymous">Client — Anonyme</div>
+            <div class="testi-role" data-fr="Mission freelance" data-en="Freelance project">Stage</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi rv d2">
+        <div class="testi-q">"</div>
+        <p class="testi-txt" data-fr="Je tenais à te féliciter. Elle a beaucoup apprécié le travail." data-en="I wanted to congratulate you. She was very pleased with the work.">
+          Je tenais à te féliciter. Elle a beaucoup apprécié le travail.
+        </p>
+        <div class="testi-author">
+          <div class="testi-av">JO</div>
+          <div>
+            <div class="testi-name">Jean-Claude Owolabi</div>
+            <div class="testi-role" data-fr="Retour client" data-en="Client feedback">Retour client</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ──────────────────────────────── -->
+<section id="contact" class="sec">
+  <div class="sec-in">
+    <div class="sec-hd rv">
+      <p class="sec-lbl">06 — Contact</p>
+      <h2 class="sec-ttl" data-fr="Un projet en tête ?" data-en="Have a project in mind?">Un projet en tête ?</h2>
+    </div>
+
+    <div class="contact-grid">
+      <div class="c-info rv">
+        <div class="c-avail">
+          <div class="avail-dot"></div>
+          <span data-fr="Disponible · Réponse sous 24h" data-en="Available · Reply within 24h">Disponible · Réponse sous 24h</span>
+        </div>
+        <p data-fr="Analyse de données, études statistiques, dashboards ou formation — si votre projet nécessite de la rigueur quantitative, parlons-en." data-en="Data analysis, statistical studies, dashboards or training — if your project requires quantitative rigor, let's talk.">
+          Analyse de données, études statistiques, dashboards ou formation — si votre projet nécessite de la rigueur quantitative, parlons-en.
+        </p>
+        <div class="c-links">
+          <a href="mailto:tresorallognon44@gmail.com" class="c-link">
+            <i class="far fa-envelope"></i><span>tresorallognon44@gmail.com</span>
+          </a>
+          <a href="https://www.linkedin.com/in/mariel-allognon-30bb71293" target="_blank" rel="noopener" class="c-link">
+            <i class="fab fa-linkedin-in"></i><span>linkedin.com/in/mariel-allognon</span>
+          </a>
+        </div>
+      </div>
+
+      <form class="c-form rv d1" onsubmit="handleSubmit(event)">
+        <div class="f-row">
+          <div class="f-grp">
+            <label data-fr="Nom complet" data-en="Full name">Nom complet</label>
+            <input type="text" placeholder="Jean Dupont" required />
+          </div>
+          <div class="f-grp">
+            <label>Email</label>
+            <input type="email" placeholder="jean@example.com" required />
+          </div>
+        </div>
+        <div class="f-grp">
+          <label data-fr="Type de mission" data-en="Project type">Type de mission</label>
+          <select>
+            <option data-fr="Sélectionner..." data-en="Select...">Sélectionner...</option>
+            <option data-fr="Analyse de données" data-en="Data analysis">Analyse de données</option>
+            <option data-fr="Étude statistique" data-en="Statistical study">Étude statistique</option>
+            <option data-fr="Dashboard / Visualisation" data-en="Dashboard">Dashboard / Visualisation</option>
+            <option data-fr="Formation" data-en="Training">Formation</option>
+            <option data-fr="Autre" data-en="Other">Autre</option>
+          </select>
+        </div>
+        <div class="f-grp">
+          <label data-fr="Message" data-en="Message">Message</label>
+          <textarea placeholder="Décrivez votre projet..." required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">
+          <i class="far fa-paper-plane" style="font-size:.8rem"></i>
+          <span data-fr="Envoyer" data-en="Send">Envoyer</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ───────────────────────────────── -->
+<footer>
+  <div class="foot-in">
+    <div class="foot-brand">
+      TM<span>.</span>ALLOGNON
+      <p data-fr="Données. Rigueur. Résultats." data-en="Data. Rigor. Results.">Données. Rigueur. Résultats.</p>
+    </div>
+    <div class="foot-links">
+      <a href="#about"  data-fr="À propos" data-en="About">À propos</a>
+      <a href="#projects" data-fr="Projets" data-en="Projects">Projets</a>
+      <a href="#experience" data-fr="Parcours" data-en="Experience">Parcours</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <p class="foot-copy">© 2026 Trésor Mariel ALLOGNON</p>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cur = document.getElementById('cur');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('a,button,input,textarea,select').forEach(el => {
+    el.addEventListener('mouseenter', () => cur.classList.add('on'));
+    el.addEventListener('mouseleave', () => cur.classList.remove('on'));
+  });
+
+  // Navbar
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40), {passive:true});
+
+  // Mobile menu
+  function toggleMenu() {
+    const m = document.getElementById('mobMenu');
+    m.classList.toggle('open');
+    document.body.style.overflow = m.classList.contains('open') ? 'hidden' : '';
+  }
+
+  // Typewriter
+  const twEl = document.getElementById('tw');
+  const TW = {
+    fr: ['Technicien Supérieur en Statistique Appliquée','Data Analyst','En formation · Ingénierie Financière'],
+    en: ['Applied Statistics Technician','Data Analyst','Training in Financial Engineering']
+  };
+  let lang = 'fr', ti = 0, tc = 0, del = false;
+  function tw() {
+    const ph = TW[lang][ti];
+    twEl.textContent = del ? ph.slice(0, --tc) : ph.slice(0, ++tc);
+    if (!del && tc === ph.length) { del = true; setTimeout(tw, 2000); return; }
+    if (del && tc === 0) { del = false; ti = (ti + 1) % TW[lang].length; }
+    setTimeout(tw, del ? 38 : 68);
+  }
+  setTimeout(tw, 900);
+
+  // Scroll reveal
+  const rvObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); rvObs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.rv').forEach(el => rvObs.observe(el));
+
+  // Skill bars
+  const skObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.sk-fill').forEach(b => {
+          setTimeout(() => b.style.width = b.dataset.w + '%', 150);
+        });
+        skObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.sk-cat').forEach(el => skObs.observe(el));
+
+  // CountUp
+  function countUp(el, target, dur = 1400) {
+    const sp = el.querySelector('span');
+    if (!sp) return;
+    const s = performance.now();
+    (function step(now) {
+      const p = Math.min((now - s) / dur, 1);
+      sp.textContent = Math.floor((1 - Math.pow(1-p, 3)) * target);
+      if (p < 1) requestAnimationFrame(step); else sp.textContent = target;
+    })(s);
+  }
+  const cntObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const t = parseInt(e.target.dataset.target);
+        if (!isNaN(t)) countUp(e.target, t);
+        cntObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-target]').forEach(el => cntObs.observe(el));
+
+  // Language
+  function setLang(l) {
+    lang = l;
+    document.querySelectorAll('[data-fr]').forEach(el => {
+      const v = el.getAttribute('data-' + l);
+      if (!v) return;
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = v;
+      else if (el.tagName === 'OPTION') el.textContent = v;
+      else el.innerHTML = v;
+    });
+    document.querySelectorAll('.lang-sw button').forEach(b =>
+      b.classList.toggle('on', b.textContent.trim().toLowerCase() === l));
+    ti = 0; tc = 0; del = false;
+  }
+
+  // Form
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-submit');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<i class="far fa-check-circle"></i> <span>Envoyé !</span>';
+    btn.style.background = '#16a34a'; btn.disabled = true;
+    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; btn.disabled = false; e.target.reset(); }, 3000);
+  }
+</script>
+</body>
+</html>
