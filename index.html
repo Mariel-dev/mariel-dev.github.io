@@ -1411,6 +1411,7 @@
   function setLang(l) {
     lang = l;
     document.querySelectorAll('[data-fr]').forEach(el => {
+      if (el.classList.contains('nav-logo')) return;
       const v = el.getAttribute('data-' + l);
       if (!v) return;
       if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = v;
