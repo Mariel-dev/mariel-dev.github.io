@@ -1266,16 +1266,19 @@
           Analyse de données, études statistiques, dashboards ou formation — si votre projet nécessite de la rigueur quantitative, parlons-en.
         </p>
         <div class="c-links">
-          <a href="mailto:tresorallognon44@gmail.com" class="c-link">
-            <i class="far fa-envelope"></i><span>tresorallognon44@gmail.com</span>
-          </a>
-          <a href="https://www.linkedin.com/in/mariel-allognon-30bb71293" target="_blank" rel="noopener" class="c-link">
-            <i class="fab fa-linkedin-in"></i><span>linkedin.com/in/mariel-allognon</span>
-          </a>
-        </div>
+  <a href="https://wa.me/2290165759179" target="_blank" rel="noopener" class="c-link">
+    <i class="fab fa-whatsapp"></i><span>+229 01 65 75 91 79</span>
+  </a>
+  <a href="mailto:tresorallognon44@gmail.com" class="c-link">
+    <i class="far fa-envelope"></i><span>tresorallognon44@gmail.com</span>
+  </a>
+  <a href="https://www.linkedin.com/in/mariel-allognon-30bb71293" target="_blank" rel="noopener" class="c-link">
+    <i class="fab fa-linkedin-in"></i><span>linkedin.com/in/mariel-allognon</span>
+  </a>
+</div>
       </div>
 
-      <form class="c-form rv d1" onsubmit="handleSubmit(event)">
+      <form class="c-form rv d1" action="https://formspree.io/f/mqppzndy" method="POST">
         <div class="f-row">
           <div class="f-grp">
             <label data-fr="Nom complet" data-en="Full name">Nom complet</label>
@@ -1423,15 +1426,6 @@
     ti = 0; tc = 0; del = false;
   }
 
-  // Form
-  function handleSubmit(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('.btn-submit');
-    const orig = btn.innerHTML;
-    btn.innerHTML = '<i class="far fa-check-circle"></i> <span>Envoyé !</span>';
-    btn.style.background = '#16a34a'; btn.disabled = true;
-    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; btn.disabled = false; e.target.reset(); }, 3000);
-  }
 </script>
 </body>
 </html>
