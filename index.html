@@ -1279,36 +1279,36 @@
       </div>
 
       <form class="c-form rv d1" action="https://formspree.io/f/mqppzndy" method="POST">
-        <div class="f-row">
-          <div class="f-grp">
-            <label data-fr="Nom complet" data-en="Full name">Nom complet</label>
-            <input type="text" placeholder="Jean Dupont" required />
-          </div>
-          <div class="f-grp">
-            <label>Email</label>
-            <input type="email" placeholder="jean@example.com" required />
-          </div>
-        </div>
-        <div class="f-grp">
-          <label data-fr="Type de mission" data-en="Project type">Type de mission</label>
-          <select>
-            <option data-fr="Sélectionner..." data-en="Select...">Sélectionner...</option>
-            <option data-fr="Analyse de données" data-en="Data analysis">Analyse de données</option>
-            <option data-fr="Étude statistique" data-en="Statistical study">Étude statistique</option>
-            <option data-fr="Dashboard / Visualisation" data-en="Dashboard">Dashboard / Visualisation</option>
-            <option data-fr="Formation" data-en="Training">Formation</option>
-            <option data-fr="Autre" data-en="Other">Autre</option>
-          </select>
-        </div>
-        <div class="f-grp">
-          <label data-fr="Message" data-en="Message">Message</label>
-          <textarea placeholder="Décrivez votre projet..." required></textarea>
-        </div>
-        <button type="submit" class="btn-submit">
-          <i class="far fa-paper-plane" style="font-size:.8rem"></i>
-          <span data-fr="Envoyer" data-en="Send">Envoyer</span>
-        </button>
-      </form>
+  <div class="f-row">
+    <div class="f-grp">
+      <label data-fr="Nom complet" data-en="Full name">Nom complet</label>
+      <input type="text" name="nom" placeholder="Jean Dupont" required />
+    </div>
+    <div class="f-grp">
+      <label>Email</label>
+      <input type="email" name="email" placeholder="jean@example.com" required />
+    </div>
+  </div>
+  <div class="f-grp">
+    <label data-fr="Type de mission" data-en="Project type">Type de mission</label>
+    <select name="mission">
+      <option data-fr="Sélectionner..." data-en="Select...">Sélectionner...</option>
+      <option data-fr="Analyse de données" data-en="Data analysis">Analyse de données</option>
+      <option data-fr="Étude statistique" data-en="Statistical study">Étude statistique</option>
+      <option data-fr="Dashboard / Visualisation" data-en="Dashboard">Dashboard / Visualisation</option>
+      <option data-fr="Formation" data-en="Training">Formation</option>
+      <option data-fr="Autre" data-en="Other">Autre</option>
+    </select>
+  </div>
+  <div class="f-grp">
+    <label data-fr="Message" data-en="Message">Message</label>
+    <textarea name="message" placeholder="Décrivez votre projet..." required></textarea>
+  </div>
+  <button type="submit" class="btn-submit">
+    <i class="far fa-paper-plane" style="font-size:.8rem"></i>
+    <span data-fr="Envoyer" data-en="Send">Envoyer</span>
+  </button>
+</form>
     </div>
   </div>
 </section>
